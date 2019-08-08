@@ -11,7 +11,7 @@ open class BaseViewModel : ScopedViewModel() {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    val errorEvent = MutableLiveData<Int>()
+    val errorEvent = MutableLiveData<Event<Int>>()
 
     val internalErrorEvent = MutableLiveData<Event<Throwable>>()
 

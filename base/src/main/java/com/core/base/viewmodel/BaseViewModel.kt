@@ -39,7 +39,9 @@ open class BaseViewModel : ScopedViewModel() {
      */
 
     fun handleError(throwable: Throwable) {
-        Timber.e(throwable.message!!)
+        throwable.message?.let {
+            Timber.e(throwable)
+        }
     }
 
     fun handleErrorExt(throwable: Throwable) {

@@ -19,7 +19,7 @@ class FileManager constructor(val context: Context) {
      *
      * -> NULL, if `fileName` is empty
      */
-    private fun getInternalFile(fileName: String?): File? {
+    fun getInternalFile(fileName: String?): File? {
         if (fileName == null || fileName.trim { it <= ' ' }.isEmpty()) {
             Timber.e("fileName is empty, cant create file.")
             return null

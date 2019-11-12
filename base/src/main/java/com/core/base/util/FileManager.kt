@@ -11,6 +11,11 @@ import java.io.InputStream
 
 class FileManager constructor(val context: Context) {
 
+    interface OnBitmapSaveListener {
+        fun onBitmapSaved(file: File)
+        fun onBitmapSaveFailed(error: String)
+    }
+
     /**
      * Creates the File object with path to internal storage (program folder)
      *
@@ -65,7 +70,8 @@ class FileManager constructor(val context: Context) {
         fileName: String?,
         savingBitmap: Bitmap?,
         compressFormat: Bitmap.CompressFormat?,
-        quality: Int
+        quality: Int,
+        listener: OnBitmapSaveListener? = null
     ) {
         var currentQuality = quality
         if (fileName == null) {
@@ -91,7 +97,9 @@ class FileManager constructor(val context: Context) {
             savingBitmap.compress(compressFormat, currentQuality, os)
             os.flush()
             os.close()
+            listener?.onBitmapSaved(file)
         } catch (e: Exception) {
+            listener?.onBitmapSaveFailed(e.message)
             Timber.e("Error on saving file. ${e.message}")
         }
 

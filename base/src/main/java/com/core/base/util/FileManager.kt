@@ -10,6 +10,9 @@ import java.io.FileOutputStream
 import java.io.InputStream
 
 class FileManager constructor(val context: Context) {
+    companion object {
+        const val REQUEST_CHOOSE_PHOTO = 2327
+    }
 
     interface OnBitmapSaveListener {
         fun onBitmapSaved(file: File)

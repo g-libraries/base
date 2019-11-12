@@ -99,7 +99,7 @@ class FileManager constructor(val context: Context) {
             os.close()
             listener?.onBitmapSaved(file)
         } catch (e: Exception) {
-            listener?.onBitmapSaveFailed(e.message)
+            listener?.onBitmapSaveFailed(e.message ?: e.toString())
             Timber.e("Error on saving file. ${e.message}")
         }
 

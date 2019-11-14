@@ -60,3 +60,5 @@ object RxBusReplay : RxBus {
         return publisher.ofType(eventType)
     }
 }
+
+data class EventServerError(val code: Int)

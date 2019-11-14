@@ -41,6 +41,11 @@ dependencies {
     //Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    //Okhttp
+    def okhttpVersion = "3.14.2"
+    implementation "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
     //Dagger 2
     implementation 'com.google.dagger:dagger:2.23.1'
     kapt 'com.google.dagger:dagger-compiler:2.23.1'

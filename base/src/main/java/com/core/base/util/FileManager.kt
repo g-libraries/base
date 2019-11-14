@@ -1,8 +1,10 @@
 package com.core.base.util
 
+import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.fragment.app.Fragment
 import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
@@ -17,6 +19,18 @@ class FileManager constructor(val context: Context) {
     interface OnBitmapSaveListener {
         fun onBitmapSaved(file: File)
         fun onBitmapSaveFailed(error: String)
+    }
+
+    /**
+     * Request permission to work with External Storage
+     */
+    fun requestPermission(context: Fragment, permissionRequestCode: Int) {
+        context.requestPermissions(
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ),
+            permissionRequestCode
+        )
     }
 
     /**

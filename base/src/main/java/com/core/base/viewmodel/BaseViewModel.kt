@@ -1,4 +1,4 @@
-package com.eaterytemplate.viewmodel
+package com.core.base.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

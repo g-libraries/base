@@ -1,4 +1,4 @@
-package com.eaterytemplate.viewmodel
+package com.core.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope

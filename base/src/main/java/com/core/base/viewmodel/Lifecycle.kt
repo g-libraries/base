@@ -1,4 +1,4 @@
-package com.eaterytemplate.viewmodel
+package com.core.base.viewmodel
 
 interface Lifecycle {
     fun onCreate()

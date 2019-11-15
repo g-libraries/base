@@ -3,6 +3,7 @@ package com.core.base.util
 import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.fragment.app.Fragment
 import com.mindorks.paracamera.Camera
@@ -51,6 +52,13 @@ class CameraManager {
             Timber.e("Error on opening camera. ${e.message}")
             listener.onCameraError(e.message ?: e.toString())
         }
+    }
+
+    /**
+     * Returns Bitmap shot on Camera
+     */
+    fun getCameraBitmap(): Bitmap? {
+        return camera?.cameraBitmap
     }
 }
 

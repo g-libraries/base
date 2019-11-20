@@ -1,8 +1,13 @@
 package com.core.base.util
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View
 import android.view.ViewTreeObserver
 import android.text.TextUtils
@@ -95,7 +100,6 @@ fun NavController.navigateClearStack(rootFragmentId: Int, destinationId: Int) {
     this.navigate(destinationId)
 }
 
-
 fun Boolean.toInt() = if (this) 1 else 0
 
 val Int.toPx: Int
@@ -136,4 +140,32 @@ fun View?.applyGlobalLayoutListener(attachedExpr: (it: View?) -> Unit) {
             attachedExpr(this@applyGlobalLayoutListener)
         }
     }) ?: attachedExpr(null)
+}
+
+fun String.decodeUserGender(): Int {
+    return when (this) {
+        "male" -> 1
+        "female" -> 2
+        "unknown" -> 0
+        else -> 0
+    }
+}
+
+fun Int.encodeUserGender(): String {
+    return when (this) {
+        1 -> "male"
+        2 -> "female"
+        0 -> "unknown"
+        else -> "unknown"
+    }
+}
+
+@SuppressLint("MissingPermission")
+fun Fragment.vibratePhone(duration: Long) {
+    val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if (Build.VERSION.SDK_INT >= 26) {
+        vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        vibrator.vibrate(duration)
+    }
 }

@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
@@ -98,6 +99,11 @@ val Int.savingsProgress: Int
 fun NavController.navigateClearStack(rootFragmentId: Int, destinationId: Int) {
     this.popBackStack(rootFragmentId, false)
     this.navigate(destinationId)
+}
+
+fun NavController.navigateClearLastInStack(destinationId: Int, bundle: Bundle? = null) {
+    this.popBackStack()
+    this.navigate(destinationId, bundle)
 }
 
 fun Boolean.toInt() = if (this) 1 else 0

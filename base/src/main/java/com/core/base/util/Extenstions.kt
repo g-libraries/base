@@ -63,8 +63,7 @@ fun String.validateSurName(): Boolean = this.length > 2
 fun String.validateEmail(): Boolean =
     this.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
-fun String.convertToPhoneNumberWithReplace(): String {
-    val mask = "XXXX XX XXX XX XX"
+fun String.convertToPhoneNumberWithReplace(mask:String): String {
     val text = this.replaceSpaces()
 
     val resultText = StringBuilder()

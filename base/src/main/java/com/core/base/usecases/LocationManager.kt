@@ -10,6 +10,11 @@ import android.location.LocationManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import timber.log.Timber
 
 class LocationManager {
     internal var lm: LocationManager? = null
@@ -44,11 +49,17 @@ class LocationManager {
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
     }
 
-    fun getLocation(context: Fragment, result: LocationResult): Boolean {
+    fun getLocation(
+        fragment: Fragment,
+        result: LocationResult,
+        context: Context,
+        onFailure: () -> (Unit),
+        onSuccess: () -> (Unit) = {}
+    ): Boolean {
         //I use LocationResult callback class to pass location value from LocationManager to user code.
         locationResult = result
         if (lm == null)
-            lm = context.context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
         //exceptions will be thrown if provider is not permitted.
         try {
@@ -62,20 +73,57 @@ class LocationManager {
         }
 
         //don't start listeners if no provider is enabled
-        if (!gps_enabled && !network_enabled)
+        if (!gps_enabled && !network_enabled) {
+            val googleApiClient = GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API).build()
+            googleApiClient.connect()
+
+            val locationRequest = LocationRequest.create()
+
+            val builder = LocationSettingsRequest.Builder().addLocationRequest(
+                locationRequest
+            )
+            builder.setAlwaysShow(true)
+
+            LocationServices.getSettingsClient(context)
+                .checkLocationSettings(builder.build()).addOnSuccessListener {
+                    getLocation(fragment)
+                    onSuccess.invoke()
+                }.addOnCanceledListener {
+                    onFailure.invoke()
+                }.addOnFailureListener {
+                    onFailure.invoke()
+                }
+
             return false
-
-        if (checkPermission(context)) {
-            if (gps_enabled)
-                lm!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListenerGps)
-            if (network_enabled)
-                lm!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListenerNetwork)
-
-            getLastLocation(context)
         }
+
+        getLocation(fragment)
 
         return true
     }
+
+    private fun getLocation(fragment: Fragment) {
+        if (checkPermission(fragment)) {
+            if (gps_enabled)
+                lm!!.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0f,
+                    locationListenerGps
+                )
+            if (network_enabled)
+                lm!!.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    0,
+                    0f,
+                    locationListenerNetwork
+                )
+
+            getLastLocation(fragment)
+        }
+    }
+
 
     private fun getLastLocation(context: Fragment) {
         lm!!.removeUpdates(locationListenerGps)
@@ -122,7 +170,10 @@ class LocationManager {
             ) != PackageManager.PERMISSION_GRANTED
         ) run {
             context.requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
                 LOCATION_PERM_REQUEST
             )
 

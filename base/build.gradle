@@ -60,6 +60,8 @@ dependencies {
     def room_version = "2.1.0-rc01"
     implementation "androidx.room:room-rxjava2:$room_version"
 
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
     //Navigation
     def nav_version = "2.1.0-alpha05"
 

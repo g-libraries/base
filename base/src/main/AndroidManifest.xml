@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.core.base"/>
+          package="com.core.base">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+</manifest>

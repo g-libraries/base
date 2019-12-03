@@ -2,7 +2,9 @@ package com.core.base.usecases
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -11,6 +13,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
@@ -52,9 +55,10 @@ class LocationManager {
     fun getLocation(
         fragment: Fragment,
         result: LocationResult,
-        context: Context,
-        onFailure: () -> (Unit),
-        onSuccess: () -> (Unit) = {}
+        context: Activity,
+        onSuccess: () -> (Unit) = {},
+        onCancel: () -> (Unit) = {},
+        onFailure: (Throwable) -> (Unit)
     ): Boolean {
         //I use LocationResult callback class to pass location value from LocationManager to user code.
         locationResult = result
@@ -79,6 +83,7 @@ class LocationManager {
             googleApiClient.connect()
 
             val locationRequest = LocationRequest.create()
+            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
             val builder = LocationSettingsRequest.Builder().addLocationRequest(
                 locationRequest
@@ -87,12 +92,28 @@ class LocationManager {
 
             LocationServices.getSettingsClient(context)
                 .checkLocationSettings(builder.build()).addOnSuccessListener {
+                    val states = it.locationSettingsStates
+                    if (states.isLocationPresent) {
+                        //Do something
+                    }
+
                     getLocation(fragment)
                     onSuccess.invoke()
                 }.addOnCanceledListener {
-                    onFailure.invoke()
+                    onCancel.invoke()
                 }.addOnFailureListener {
-                    onFailure.invoke()
+                    if (it is ResolvableApiException) {
+                        try {
+                            // Handle result in onActivityResult()
+                            it.startResolutionForResult(
+                                context,
+                                RESOLUTION_REQUEST
+                            )
+                        } catch (sendEx: IntentSender.SendIntentException) {
+                            onFailure.invoke(it)
+                        }
+                    }
+                    onFailure.invoke(it)
                 }
 
             return false
@@ -185,6 +206,7 @@ class LocationManager {
 
     companion object {
         const val LOCATION_PERM_REQUEST: Int = 300
+        const val RESOLUTION_REQUEST = 1414
     }
 
     abstract class LocationResult {

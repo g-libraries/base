@@ -1,4 +1,4 @@
-package com.eaterytemplate.logging
+package com.core.base.logging
 
 import timber.log.Timber
 import java.util.logging.Level

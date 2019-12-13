@@ -1,8 +1,8 @@
-package com.eaterytemplate
+package com.core.base
 
 import android.app.Application
 import com.core.base.BuildConfig
-import com.eaterytemplate.logging.ReleaseTree
+import com.core.base.logging.ReleaseTree
 import timber.log.Timber
 
 open class BaseApp : Application() {

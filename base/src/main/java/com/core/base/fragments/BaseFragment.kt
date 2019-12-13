@@ -1,10 +1,9 @@
-package com.eaterytemplate.fragments
+package com.core.base.fragments
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.eaterytemplate.interfaces.INavigator
-import com.eaterytemplate.interfaces.ITutorialHelper
+import com.core.base.interfaces.INavigator
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject

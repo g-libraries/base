@@ -1,6 +1,6 @@
-package com.eaterytemplate.interfaces
+package com.core.base.interfaces
 
-import com.eaterytemplate.fragments.BaseFragment
+import com.core.base.fragments.BaseFragment
 
 interface ITutorialHelper {
 

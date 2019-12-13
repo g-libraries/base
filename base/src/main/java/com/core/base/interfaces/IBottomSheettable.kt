@@ -1,4 +1,4 @@
-package com.eaterytemplate.interfaces
+package com.core.base.interfaces
 
 
 interface IBottomSheettable {

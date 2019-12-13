@@ -1,8 +1,9 @@
-package com.eaterytemplate.fragments
+package com.core.base.fragments
 
 import android.os.Bundle
 import android.view.View
-import com.eaterytemplate.interfaces.ITutorialHelper
+import com.core.base.fragments.BaseFragment
+import com.core.base.interfaces.ITutorialHelper
 import javax.inject.Inject
 
 class TutorialFragment : BaseFragment() {

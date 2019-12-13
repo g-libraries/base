@@ -1,4 +1,4 @@
-package com.eaterytemplate.interfaces
+package com.core.base.interfaces
 
 import android.view.View
 import androidx.navigation.NavController

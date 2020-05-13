@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 class AppRater(
     val appContext: Context,
+    val playMarketId: String,
     @StyleRes
     val themeId: Int,
     val title: String,
@@ -19,8 +20,6 @@ class AppRater(
     val negativeText: String,
     val neutralText: String
 ) {
-    private val APP_NAME = appContext.applicationInfo.name
-
     private val DAYS_UNTIL_PROMPT = 3
 
     val prefs = appContext.getSharedPreferences("apprater", Context.MODE_PRIVATE)
@@ -62,7 +61,7 @@ class AppRater(
                 activityContext.startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=$APP_NAME")
+                        Uri.parse("market://details?id=$playMarketId")
                     )
                 )
 

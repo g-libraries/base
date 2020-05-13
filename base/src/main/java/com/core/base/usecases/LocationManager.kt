@@ -99,7 +99,6 @@ class LocationManager {
 
                     getLocation(fragment)
                     onSuccess.invoke()
-                    getLocation(fragment, result, context, onSuccess, onCancel, onFailure)
                 }.addOnCanceledListener {
                     onCancel.invoke()
                 }.addOnFailureListener {

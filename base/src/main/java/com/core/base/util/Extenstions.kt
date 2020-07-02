@@ -12,12 +12,12 @@ import android.os.Vibrator
 import android.text.InputFilter
 import android.text.SpannableString
 import android.text.Spanned
-import android.view.View
-import android.view.ViewTreeObserver
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.*
+import android.view.KeyEvent
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.EditText
 import androidx.core.util.PatternsCompat
 import androidx.fragment.app.Fragment
@@ -66,24 +66,24 @@ fun String.validateSurName(): Boolean = this.length > 2
 fun String.validateEmail(): Boolean =
     this.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
-fun String.convertToPhoneNumberWithReplace(mask:String = "XXXX XX XXX XX XX"): String {
-    val text = this.replaceSpaces()
-
-    val resultText = StringBuilder()
-    resultText.append(mask)
-    var xIndex: Int
-    for (digit in text.toCharArray()) {
-        xIndex = resultText.indexOf('X')
-        resultText.setCharAt(xIndex, digit)
+fun String.convertToPhoneNumberWithReplace(
+    mask: String =
+        if (this.length == 12) "+XXX (XX) XXX XX XX" else "+3XX (XX) XXX XX XX"
+): String {
+    // Clear initial formatting to avoid errors
+    val text = this.trim().replace("+", "").replaceSpaces()
+    // Format according to mask
+    val out = StringBuilder()
+    var j = 0
+    for (i in mask.indices) {
+        if (text.length > j && mask[i] == 'X') {
+            out.append(text[j])
+            j++
+        } else {
+            out.append(mask[i])
+        }
     }
-
-    var end = resultText.indexOf('X')
-
-    if (end == -1) {
-        end = mask.length
-    }
-
-    return resultText.toString().substring(0, end)
+    return out.toString();
 }
 
 fun FragmentManager.getVisibleFragment(): Fragment? {

@@ -12,12 +12,12 @@ import android.os.Vibrator
 import android.text.InputFilter
 import android.text.SpannableString
 import android.text.Spanned
-import android.view.View
-import android.view.ViewTreeObserver
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.TypedValue
-import android.view.*
+import android.view.KeyEvent
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.EditText
 import androidx.core.util.PatternsCompat
 import androidx.fragment.app.Fragment
@@ -66,7 +66,7 @@ fun String.validateSurName(): Boolean = this.length > 2
 fun String.validateEmail(): Boolean =
     this.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
-fun String.convertToPhoneNumberWithReplace(mask:String = "XXXX XX XXX XX XX"): String {
+fun String.convertToPhoneNumberWithReplace(mask: String = "XXXX (XX) XXX XX XX"): String {
     val text = this.replaceSpaces()
 
     val resultText = StringBuilder()

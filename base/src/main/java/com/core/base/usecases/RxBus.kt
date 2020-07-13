@@ -29,7 +29,7 @@ object RxBusGlobal : RxBus {
 
 object RxBusBehaviour : RxBus {
 
-    private val publisher = BehaviorSubject.create<Any>()
+    private val publisher = ReplaySubject.createWithSize<Any>(1)
 
     override fun publish(event: Any) {
         Timber.i("RxBusBehaviour publish : ${event.javaClass.simpleName}")

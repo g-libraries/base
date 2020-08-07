@@ -22,6 +22,8 @@ class AppRater(
 ) {
     private val DAYS_UNTIL_PROMPT = 3
 
+    val dontShowAgainKey = "dontShowAgain"
+
     val prefs = appContext.getSharedPreferences("apprater", Context.MODE_PRIVATE)
     val editor = prefs.edit()
 
@@ -31,7 +33,7 @@ class AppRater(
                     firstLaunchDate + (DAYS_UNTIL_PROMPT * 24 * 60 * 60 * 1000)
         }
     ): Boolean {
-        if (prefs.getBoolean("dontShowAgain", false)) {
+        if (prefs.getBoolean(dontShowAgainKey, false)) {
             return false
         }
 
@@ -65,17 +67,17 @@ class AppRater(
                     )
                 )
 
-                dontShowAgaint()
+                dontShowAgain()
             }.setNegativeButton(negativeText) { _: DialogInterface, i: Int ->
-
+                dontShowAgain()
             }.setNeutralButton(neutralText) { _: DialogInterface, i: Int ->
-                dontShowAgaint()
+                dontShowAgain()
             }.show()
     }
 
-    fun dontShowAgaint() {
+    fun dontShowAgain() {
         if (editor != null) {
-            editor.putBoolean("dontShowAgain", true)
+            editor.putBoolean(dontShowAgainKey, true)
             editor.commit()
         }
     }

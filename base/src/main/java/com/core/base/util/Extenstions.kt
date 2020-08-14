@@ -59,6 +59,8 @@ fun Char.isSpace(): Boolean = this.toString() == " "
 
 fun String.replaceSpaces() = this.replace(" ", "")
 
+fun String.addPlus() = if (this.startsWith("+")) this else "+$this"
+
 fun String.validateName(): Boolean = this.length > 2
 
 fun String.validateSurName(): Boolean = this.length > 2
@@ -67,7 +69,7 @@ fun String.validateEmail(): Boolean =
     this.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()
 
 fun String.convertToPhoneNumberWithReplace(mask: String = "XXXX XX XXX XX XX"): String {
-    val text = this.replaceSpaces()
+    val text = this.replaceSpaces().addPlus()
 
     val resultText = StringBuilder()
     resultText.append(mask)

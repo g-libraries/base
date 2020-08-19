@@ -1,6 +1,7 @@
 package com.core.base.usecases
 
 import android.app.Activity
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Handler
 import android.view.View
@@ -8,7 +9,7 @@ import android.widget.Toast
 
 class DomainSwitchHelper(
     val sharedPreferences: SharedPreferences,
-    val activity: Activity,
+    val context: Context,
     val build: Boolean
 ) {
 
@@ -34,8 +35,8 @@ class DomainSwitchHelper(
                 setMode(!getMode())
 
                 Toast.makeText(
-                    activity,
-                    if (getMode()) "Production. Reload the app" else "Development. Reload the app",
+                    context,
+                    if (getMode()) "Production. Reload the app" else ". Reload the app",
                     Toast.LENGTH_SHORT
                 ).show()
 

@@ -36,7 +36,7 @@ class DomainSwitchHelper(
 
                 Toast.makeText(
                     context,
-                    if (getMode()) "Production. Reload the app" else ". Reload the app",
+                    if (getMode()) "Production. Reload the app" else "Development. Reload the app",
                     Toast.LENGTH_SHORT
                 ).show()
 

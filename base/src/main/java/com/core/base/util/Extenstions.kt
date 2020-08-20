@@ -72,7 +72,7 @@ fun String.convertToPhoneNumberWithReplace(mask: String = "+XXX XX XXX XX XX"): 
     val text = this.replaceSpaces().replace("+", "")
 
     val resultText = StringBuilder()
-    resultText.append(text)
+    resultText.append(mask)
     var xIndex: Int
     for (digit in text.toCharArray()) {
         xIndex = resultText.indexOf('X')

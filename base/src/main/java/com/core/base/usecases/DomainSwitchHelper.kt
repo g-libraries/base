@@ -15,7 +15,7 @@ class DomainSwitchHelper(
 
     val MODE = "mode"
 
-    fun initSwitch(view: View) {
+    fun initSwitch(view: View, onChanged: () -> Unit) {
         var isOk = true
         var counter = 0
         val handler = Handler()
@@ -39,6 +39,8 @@ class DomainSwitchHelper(
                     if (getMode()) "Production. Reload the app" else "Development. Reload the app",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                onChanged.invoke()
 
                 counter = 0
             }

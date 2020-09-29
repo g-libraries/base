@@ -142,6 +142,10 @@ fun Drawable.maskColor(color: Int) {
 fun String.formatAsUrl() =
     if (!this.startsWith("http://") && !this.startsWith("https://")) "https://$this" else this
 
+fun String.formatAsWorkingTime(work24h: String): CharSequence? {
+    return if (this.count { it == '0' } >= 8) work24h else this
+}
+
 fun View?.applyGlobalLayoutListener(attachedExpr: (it: View?) -> Unit) {
     this?.viewTreeObserver?.addOnGlobalLayoutListener(object :
         ViewTreeObserver.OnGlobalLayoutListener {

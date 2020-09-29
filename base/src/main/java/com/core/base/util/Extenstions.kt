@@ -146,6 +146,20 @@ fun String.formatAsWorkingTime(work24h: String): CharSequence? {
     return if (this.count { it == '0' } >= 8) work24h else this
 }
 
+fun Float.formatWithoutZero(): String {
+    return if (this.toInt().toFloat() == this) this.toInt().toString() else String.format(
+        "%.2f",
+        this
+    )
+}
+
+fun Double.formatWithoutZero(): String {
+    return if (this.toInt().toDouble() == this) this.toInt().toString() else String.format(
+        "%.2f",
+        this
+    )
+}
+
 fun View?.applyGlobalLayoutListener(attachedExpr: (it: View?) -> Unit) {
     this?.viewTreeObserver?.addOnGlobalLayoutListener(object :
         ViewTreeObserver.OnGlobalLayoutListener {

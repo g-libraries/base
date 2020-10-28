@@ -16,6 +16,7 @@ import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.EditText
@@ -230,4 +231,18 @@ fun EditText.setWhiteSpaceFilter() = run {
             return Character.isLetterOrDigit(c)
         }
     })
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun EditText.applyInternalScroll() {
+        this.setOnTouchListener { view, event ->
+            if (view.id == this.id) {
+                view.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_UP -> view.parent
+                        .requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+    }
 }

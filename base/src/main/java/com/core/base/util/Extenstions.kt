@@ -231,18 +231,18 @@ fun EditText.setWhiteSpaceFilter() = run {
             return Character.isLetterOrDigit(c)
         }
     })
+}
 
-    @SuppressLint("ClickableViewAccessibility")
-    fun EditText.applyInternalScroll() {
-        this.setOnTouchListener { view, event ->
-            if (view.id == this.id) {
-                view.parent.requestDisallowInterceptTouchEvent(true)
-                when (event.action and MotionEvent.ACTION_MASK) {
-                    MotionEvent.ACTION_UP -> view.parent
-                        .requestDisallowInterceptTouchEvent(false)
-                }
+@SuppressLint("ClickableViewAccessibility")
+fun EditText.applyInternalScroll() {
+    this.setOnTouchListener { view, event ->
+        if (view.id == this.id) {
+            view.parent.requestDisallowInterceptTouchEvent(true)
+            when (event.action and MotionEvent.ACTION_MASK) {
+                MotionEvent.ACTION_UP -> view.parent
+                    .requestDisallowInterceptTouchEvent(false)
             }
-            false
         }
+        false
     }
 }

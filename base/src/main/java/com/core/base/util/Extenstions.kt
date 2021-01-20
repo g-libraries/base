@@ -77,7 +77,7 @@ fun String.convertToPhoneNumberWithReplace(mask: String = "+XXX XX XXX XX XX"): 
     var xIndex: Int
     for (digit in text.toCharArray()) {
         xIndex = resultText.indexOf('X')
-        resultText.setCharAt(xIndex, digit)
+        if (xIndex != -1) resultText.setCharAt(xIndex, digit)
     }
 
     var end = resultText.indexOf('X')

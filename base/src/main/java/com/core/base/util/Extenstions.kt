@@ -27,7 +27,7 @@ import androidx.navigation.NavController
 
 fun EditText.validatePhoneNumber(mask: String = "+XXX XX XXX XX XX"): Boolean {
     val length = mask.filter { it == 'X' }.length
-    val phoneNumber = this.text.toString().filter { it == 'X' }
+    val phoneNumber = this.text.toString().filter { it.isDigit() }
 
     return if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < length) {
         false

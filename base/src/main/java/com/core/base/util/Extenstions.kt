@@ -25,10 +25,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 
-fun EditText.validatePhoneNumber(): Boolean {
-    val phoneNumber = this.text.toString().replaceSpaces()
+fun EditText.validatePhoneNumber(mask: String = "+XXX XX XXX XX XX"): Boolean {
+    val length = mask.filter { it == 'X' }.length
+    val phoneNumber = this.text.toString().filter { it == 'X' }
 
-    return if (TextUtils.isEmpty(phoneNumber) || !phoneNumber.startsWith("+380") || phoneNumber.length < 13) {
+    return if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length < length) {
         false
     } else {
         android.util.Patterns.PHONE.matcher(phoneNumber).matches()
@@ -62,9 +63,9 @@ fun String.replaceSpaces() = this.replace(" ", "")
 
 fun String.addPlus() = if (this.startsWith("+")) this else "+$this"
 
-fun String.validateName(): Boolean = this.length > 2
+fun String.validateName(): Boolean = this.length >= 2
 
-fun String.validateSurName(): Boolean = this.length > 2
+fun String.validateSurName(): Boolean = this.length >= 2
 
 fun String.validateEmail(): Boolean =
     this.isNotEmpty() && PatternsCompat.EMAIL_ADDRESS.matcher(this).matches()

@@ -56,9 +56,10 @@ class LocationManager {
         fragment: Fragment,
         result: LocationResult,
         context: Activity,
-        onSuccess: () -> (Unit) = {},
-        onCancel: () -> (Unit) = {},
-        onFailure: (Throwable) -> (Unit)
+        onSuccess: () -> Unit = {},
+        onCancel: () -> Unit = {},
+        onFailPermission: () -> Unit = {},
+        onFailure: (Throwable) -> Unit = {}
     ): Boolean {
         //I use LocationResult callback class to pass location value from LocationManager to user code.
         locationResult = result
@@ -119,12 +120,12 @@ class LocationManager {
             return false
         }
 
-        getLocation(fragment)
+        getLocation(fragment, onFailPermission)
 
         return true
     }
 
-    private fun getLocation(fragment: Fragment) {
+    private fun getLocation(fragment: Fragment, onFailPermission: () -> Unit = {}) {
         if (checkPermission(fragment)) {
             if (gps_enabled)
                 lm!!.requestLocationUpdates(
@@ -142,9 +143,10 @@ class LocationManager {
                 )
 
             getLastLocation(fragment)
+        } else {
+            onFailPermission.invoke()
         }
     }
-
 
     private fun getLastLocation(context: Fragment) {
         lm!!.removeUpdates(locationListenerGps)

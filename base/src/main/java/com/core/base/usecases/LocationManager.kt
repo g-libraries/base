@@ -61,12 +61,11 @@ class LocationManager {
         onFailPermission: () -> Unit = {},
         onFailure: (Throwable) -> Unit = {}
     ): Boolean {
-        //I use LocationResult callback class to pass location value from LocationManager to user code.
+
         locationResult = result
         if (lm == null)
             lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
-        //exceptions will be thrown if provider is not permitted.
         try {
             gps_enabled = lm!!.isProviderEnabled(LocationManager.GPS_PROVIDER)
         } catch (ex: Exception) {
@@ -76,8 +75,7 @@ class LocationManager {
             network_enabled = lm!!.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         } catch (ex: Exception) {
         }
-
-        //don't start listeners if no provider is enabled
+        
         if (!gps_enabled && !network_enabled) {
             val googleApiClient = GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API).build()
